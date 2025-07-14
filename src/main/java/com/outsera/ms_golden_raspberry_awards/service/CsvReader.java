@@ -63,7 +63,7 @@ public class CsvReader {
             }
         } catch (IOException e) {
             log.error("[Component] - Falha ao ler o arquivo CSV: {}", e.getMessage());
-            e.printStackTrace();
+            return null;
         }
 
         log.info("[Component] - Fim - operacao readCsv");
