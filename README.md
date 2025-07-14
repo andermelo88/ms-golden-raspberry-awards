@@ -12,7 +12,7 @@ Aplicação Spring Boot para análise dos prêmios Golden Raspberry Awards.
 
 1. **Clone o repositório:**
    ```
-   git clone <url-do-repositorio>
+   git clone https://github.com/andermelo88/ms-golden-raspberry-awards.git
    cd ms-golden-raspberry-awards
    ```
 
