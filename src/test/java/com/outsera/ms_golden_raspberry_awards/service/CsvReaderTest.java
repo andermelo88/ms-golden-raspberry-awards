@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Test;
 import com.outsera.ms_golden_raspberry_awards.entity.Movie;
 import com.outsera.ms_golden_raspberry_awards.repository.MovieRepository;
 import org.junit.jupiter.api.BeforeEach;
-
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.util.ReflectionTestUtils;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -12,6 +12,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
+@SpringBootTest
 public class CsvReaderTest {
 
     private MovieRepository movieRepository;
@@ -58,7 +59,7 @@ public class CsvReaderTest {
     void testReadCsvWithInvalidFile() {
         ReflectionTestUtils.setField(csvReader, "csvFilePath", "invalid_path.csv");
         List<Movie> movies = csvReader.readCsv();
-        assertTrue(movies.isEmpty());
+        assertTrue(movies == null);
     }
 
     @Test
