@@ -7,7 +7,6 @@ import org.mockito.Mockito;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import static org.mockito.ArgumentMatchers.anyInt;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -20,20 +19,11 @@ public class MovieControllerImplTest {
     @Test
     void testGetIntevalsByFilter() throws Exception {
         IntervalDTO intervalDTO = new IntervalDTO(null, null);
-        Mockito.when(movieService.getIntervals(anyInt())).thenReturn(intervalDTO);
+        Mockito.when(movieService.getIntervals()).thenReturn(intervalDTO);
 
-        mockMvc.perform(get("/movie/v1/intervals/1")
+        mockMvc.perform(get("/movie/v1/intervals/")
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
     }
 
-    @Test
-    void testGetIntevalsByFilter_WithDifferentFilter() throws Exception {
-        IntervalDTO intervalDTO = new IntervalDTO(null, null);
-        Mockito.when(movieService.getIntervals(2)).thenReturn(intervalDTO);
-
-        mockMvc.perform(get("/movie/v1/intervals/2")
-                .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk());
-    }
 }

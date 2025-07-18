@@ -26,18 +26,18 @@ public class MovieService {
         this.movieRepository = movieRepository;
     }
 
-    public IntervalDTO getIntervals(int limit) {
-        log.info("[Service] - Inicio - getIntervals: {}", limit);
+    public IntervalDTO getIntervals() {
+        log.info("[Service] - Inicio - getIntervals");
         List<Movie> listMovies = movieRepository.findByWinner("yes");
 
-        List<MovieDTO> minInterval = getOrderedIntervalsByFilter(listMovies, "min", limit);
-        List<MovieDTO> maxInterval = getOrderedIntervalsByFilter(listMovies, "max", limit);
-        log.info("[Service] - Fim - getIntervals: {}", limit);
+        List<MovieDTO> minInterval = getOrderedIntervalsByFilter(listMovies, "min");
+        List<MovieDTO> maxInterval = getOrderedIntervalsByFilter(listMovies, "max");
+        log.info("[Service] - Fim - getIntervals: {}");
         return new IntervalDTO(minInterval, maxInterval);
     }
 
-    public List<MovieDTO> getOrderedIntervalsByFilter(List<Movie> listMovies, String filter, int limit) {
-        log.info("[Service] - Inicio - getOrderedIntervalsByFilter: {}", limit);
+    public List<MovieDTO> getOrderedIntervalsByFilter(List<Movie> listMovies, String filter) {
+        log.info("[Service] - Inicio - getOrderedIntervalsByFilter");
         Map<String, List<Integer>> listAwards = new HashMap<>();
 
         for (Movie movie : listMovies) {
@@ -66,13 +66,27 @@ public class MovieService {
             }
         }
 
-        if ("min".equalsIgnoreCase(filter)) {
-            intervals.sort(Comparator.comparingInt(MovieDTO::getInterval));
-        } else if ("max".equalsIgnoreCase(filter)) {
-            intervals.sort(Comparator.comparingInt(MovieDTO::getInterval).reversed());
+        if (intervals.isEmpty()) {
+            return Collections.emptyList();
         }
 
-        log.info("[Service] - Fim - getOrderedIntervalsByFilter: {}", limit);
-        return intervals.stream().limit(limit).toList();
+        List<MovieDTO> result = new ArrayList<>();
+        if ("min".equalsIgnoreCase(filter)) {
+            int min = intervals.stream().mapToInt(MovieDTO::getInterval).min().orElse(Integer.MAX_VALUE);
+            result = intervals.stream()
+                    .filter(dto -> dto.getInterval() == min)
+                    .sorted(Comparator.comparingInt(MovieDTO::getPreviousWin))
+                    .toList();
+        } else if ("max".equalsIgnoreCase(filter)) {
+            int max = intervals.stream().mapToInt(MovieDTO::getInterval).max().orElse(Integer.MIN_VALUE);
+            result = intervals.stream()
+                    .filter(dto -> dto.getInterval() == max)
+                    .sorted(Comparator.comparingInt(MovieDTO::getPreviousWin))
+                    .toList();
+        }
+
+        log.info("[Service] - Fim - getOrderedIntervalsByFilter");
+        return result;
+
     }
 }
