@@ -31,6 +31,8 @@ public class CsvReader {
         this.movieRepository = movieRepository;
     }
 
+
+
     public List<Movie> readCsv() {
         log.info("[Component] - Inicio - operacao readCsv");
         List<Movie> movies = new ArrayList<>();

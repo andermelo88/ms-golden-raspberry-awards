@@ -6,6 +6,9 @@ public class MovieDTO {
     private int interval;
     private int previousWin, followingWin;
 
+    public MovieDTO() {
+        // Default constructor
+    }
     public MovieDTO(String producer, int interval, int previousWin, int followingWin) {
         this.producer = producer;   
         this.interval = interval;
