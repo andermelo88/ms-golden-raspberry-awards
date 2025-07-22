@@ -31,7 +31,7 @@ Aplicação Spring Boot para análise dos prêmios Golden Raspberry Awards.
    ```
 
 4. **Acesse os endpoints:**
-   - API principal: `http://localhost:8080/movie/v1/intervals/{filter}`
+   - API principal: `http://localhost:8080/movie/v1/intervals/`
    - H2 Console: `http://localhost:8080/h2-console`  
      (usuário: `sa`, senha: em branco, JDBC URL: `jdbc:h2:file:./data/moviedb`)
 
